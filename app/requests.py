@@ -7,7 +7,7 @@ base_url = None
 
 def get_quotes(quote):
     '''
-    function that gets json to repsond to our url request
+    function that gets json to respond to our url request
     '''
     get_quotes_url = 'http://quotes.stormconsultancy.co.uk/random.json'
 
