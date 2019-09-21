@@ -1,17 +1,3 @@
-
-2019 Update
-
-Bootstrap 4
-Now that Bootstrap 4 has flexbox, Navbar alignment is much easier. Here are updated examples for left, right and center in the Bootstrap 4 Navbar, and many other alignment scenarios demonstrated here.
-
-The flexbox, auto-margins, and ordering utility classes can be used to align Navbar content as needed. There are many things to consider including the order and alignment of Navbar items (brand, links, toggler) on both large screens and the mobile/collapsed views. Don't use the grid classes (row,col) for the Navbar.
-
-Here are various examples...
-
-Left, center(brand) and right links:
-
-enter image description here
-
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
         <ul class="navbar-nav mr-auto">
@@ -32,12 +18,6 @@ enter image description here
             </li>
         </ul>
     </div>
-    <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" href="#">Navbar 2</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -47,5 +27,5 @@ enter image description here
                 <a class="nav-link" href="#">Link</a>
             </li>
         </ul>
-        </div>
-        </nav>
+    </div>
+</nav>
