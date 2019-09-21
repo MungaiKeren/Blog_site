@@ -1,7 +1,7 @@
 import os
 
 class Config:
-    pass
+    QUOTES_API_BASE_URL='http://quotes.stormconsultancy.co.uk/random.json'
 
     @staticmethod
     def init_app(app):
