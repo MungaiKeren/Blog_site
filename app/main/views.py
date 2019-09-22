@@ -1,7 +1,7 @@
 from flask import render_template
 from . import main
 from ..requests import get_quotes
-from flask_login import login_required
+from flask_login import login_required,current_user
 from ..models import User
 
 @main.route('/')
