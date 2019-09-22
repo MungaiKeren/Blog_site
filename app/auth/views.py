@@ -17,7 +17,7 @@ def login():
 
         flash('Invalid username or Password')
 
-    title = "Pitch-It Login"
+    title = "Bloggy logs"
     return render_template('auth/login.html',login_form = login_form,title=title)
 
 @auth.route('/register',methods = ["GET","POST"])
@@ -28,11 +28,10 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        #mail_message("We are glad to recieve you from Pitch it","email/welcome_user",user.email,user=user)
         
         return redirect(url_for('auth.login'))
         title = "New account"
-    return render_template('auth/register.html',registration_form = form)
+    return render_template('auth/register.html',registration_form = form,title=title)
 
 
 @auth.route('/logout')
