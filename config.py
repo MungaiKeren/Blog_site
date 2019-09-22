@@ -1,7 +1,8 @@
 import os
 
 class Config:
-    QUOTES_API_BASE_URL='http://quotes.stormconsultancy.co.uk/random.json'
+    # QUOTES_API_BASE_URL='http://quotes.stormconsultancy.co.uk/random.json'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://keren:kayren@localhost/bloggy'
 
     @staticmethod
     def init_app(app):
