@@ -1,6 +1,7 @@
 from . import db,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -57,9 +58,17 @@ class Blog(db.Model):
     blog_content = db.Column(db.String(255),index=True)
     author = db.Column(db.String(255))
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+    posted_on = db.Column(db.DateTime, default = datetime.utcnow().strftime('%d %b %Y'))
     # relationships will relate to the comment model
     comments = db.relationship('Comment',backref='blog',lazy='dynamic')
-    upvotes = db.relationship('Upvote', backref = 'blog', lazy = 'dynamic')
+
+    def save_blog(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
     @classmethod
@@ -78,36 +87,21 @@ class Comment(db.Model):
     blog_id = db.Column(db.Integer,db.ForeignKey('bloggs.id'),nullable=False)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
 
+    def save_comment(self):
+        db.session.add(self):
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     def __repr__(self):
         return f'Comment : id: {self.id} comment: {self.description}'
 
-class Upvote(db.Model):
-    __tablename__ = 'upvotes'
-
+class Subscription(db.Model):
+    __tablename__='subscriptions'
     id = db.Column(db.Integer,primary_key=True)
-    upvote = db.Column(db.Integer,default=1)
-    blog_id = db.Column(db.Integer,db.ForeignKey('bloggs.id'))
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-
-    def save_upvotes(self):
-        db.session.add(self)
-        db.session.commit()
-
-
-    def add_upvotes(cls,id):
-        upvote_pitch = Upvote(user = current_user, blog_id=id)
-        upvote_pitch.save_upvotes()
-
-    
-    @classmethod
-    def get_upvotes(cls,id):
-        upvote = Upvote.query.filter_by(blog_id=id).all()
-        return upvote
-
-    @classmethod
-    def get_all_upvotes(cls,blog_id):
-        upvotes = Upvote.query.order_by('id').all()
-        return upvotes
-
+    email = db.Column(db.String(255),unique=True,index=True)
     def __repr__(self):
-        return f'{self.user_id}:{self.blog_id}'
+        return f'User{self.email}'
+class delete_blog(db.Model):

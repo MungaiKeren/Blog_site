@@ -2,20 +2,25 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quotes
 from flask_login import login_required,current_user
-from ..models import User,Blog,Comment,Upvote
-from .forms import UpdateProfile,NewBlog,MyComment
+from ..models import User,Blog,Comment,Subscription
+from .forms import UpdateProfile,NewBlog,MyComment,SubscribeForm
 from .. import db
 
-@main.route('/')
+@main.route('/',methods=['GET','POST'])
 def index():
     blog = Blog.query.all()
     title = "Bloggy-site"
     # Getting the quotes
     quotes = get_quotes()
     print(quotes)
-
-    upvotes = Upvote.get_all_upvotes(blog_id=Blog.id)
-
+    form = SubscribeForm()
+    if form.validate_on_submit():
+        email=form.email.data
+        subscription = Subscription(email=email)
+        db.session.add(subscription)
+        db.session.commit()
+        return render_template('index.html',title=title,blog=blog,quotes=quotes)
+    # upvotes = Upvote.get_all_upvotes(blog_id=Blog.id)
     return render_template('index.html',title=title,blog=blog,quotes=quotes)
 
 @main.route('/new/blog/',methods=['GET','POST'])
@@ -44,18 +49,37 @@ def new_comment(blog_id):
         db.session.add(new_comment)
         db.session.commit()
         return redirect(url_for('.new_comment',form = form,blog_id=blog_id))
-    # all_comments = Comment.query.filter_by(blog_id=blog_id).all()
+    all_comments = Comment.query.filter_by(blog_id=blog_id).all()
     return render_template('comments.html',form=form)
 
-@main.route('/blog/<int:blog_id>', methods=["POST"])
-@login_required
-def del_blog(blog_id):
-    blog = Blog.query.get(blog_id)
-    if blog.author != current_user:
-        error = "You can't delete this Pitch"
-        return redirect(url_for('main.index'))
-    blog.delete()
-    return redirect(url_for('main.index'))
+@main.route('/deleteComment/<int:comment_id>/<int:blog_id>', methods=["get", "post"])
+def deleteComment(comment_id, blog_id):
+    comment = Comment.query.filter_by(id=comment_id).first()
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for("main.new_blog", id=blog_id))
+
+
+@main.route('/deleteblog/<int:blog_id>', methods=["get", "post"])
+def delete_blog(blog_id):
+    blog = Blog.query.filter_by(id=blog_id).first()
+    uname = current_user.username
+    db.session.delete(blog)
+    db.session.commit()
+    return redirect(url_for("main.profile", uname=uname))
+
+@main.route('/updateblog/<int:blog_id>', methods=["get", "post"])
+def edit_blog(blogid):
+
+    form = UpdateBlog()
+    if form.validate_on_submit():
+        updates = form.updates.data
+        blog = Blog.query.filter_by(id=blog_id).update({"updates": updates})
+        db.session.commit()
+        return redirect(url_for("main.profile", uname=current_user.username))
+    else:
+        form.updates.data = Blog.query.filter_by(id=blog_id).first().updates
+    return render_template("update-blog.html", updateblog_form=form)
 
 @main.route('/user/<uname>')
 def profile(uname):
