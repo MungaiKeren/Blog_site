@@ -3,7 +3,7 @@ from . import main
 from ..requests import get_quotes
 from flask_login import login_required,current_user
 from ..models import User,Blog,Comment,Subscription
-from .forms import UpdateProfile,NewBlog,MyComment,SubscribeForm
+from .forms import UpdateProfile,NewBlog,MyComment,SubscribeForm,UpdateBlog
 from .. import db
 
 @main.route('/',methods=['GET','POST'])
@@ -69,16 +69,16 @@ def delete_blog(blog_id):
     return redirect(url_for("main.profile", uname=uname))
 
 @main.route('/updateblog/<int:blog_id>', methods=["get", "post"])
-def edit_blog(blogid):
+def edit_blog(blog_id):
 
     form = UpdateBlog()
     if form.validate_on_submit():
         updates = form.updates.data
-        blog = Blog.query.filter_by(id=blog_id).update({"updates": updates})
+        blog = Blog.query.filter_by(id=blog_id).updates({"updates": updates})
         db.session.commit()
         return redirect(url_for("main.profile", uname=current_user.username))
     else:
-        form.updates.data = Blog.query.filter_by(id=blog_id).first().updates
+        form.updates.data = Blog.query.filter_by(id=blog_id).first()
     return render_template("update-blog.html", updateblog_form=form)
 
 @main.route('/user/<uname>')

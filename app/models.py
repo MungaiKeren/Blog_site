@@ -26,7 +26,6 @@ class User(UserMixin,db.Model):
     #relationships
     blog = db.relationship('Blog', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
-    upvotes = db.relationship('Upvote', backref = 'user', lazy = 'dynamic')
 
     def save(self):
         db.session.add(self)
@@ -88,7 +87,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
 
     def save_comment(self):
-        db.session.add(self):
+        db.session.add(self)
         db.session.commit()
     
     def delete(self):
@@ -104,4 +103,3 @@ class Subscription(db.Model):
     email = db.Column(db.String(255),unique=True,index=True)
     def __repr__(self):
         return f'User{self.email}'
-class delete_blog(db.Model):
