@@ -20,7 +20,6 @@ def index():
         db.session.add(subscription)
         db.session.commit()
         return render_template('index.html',title=title,blog=blog,quotes=quotes)
-    # upvotes = Upvote.get_all_upvotes(blog_id=Blog.id)
     return render_template('index.html',title=title,blog=blog,quotes=quotes)
 
 @main.route('/new/blog/',methods=['GET','POST'])
