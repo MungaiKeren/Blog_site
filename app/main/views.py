@@ -2,7 +2,7 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quotes
 from flask_login import login_required,current_user
-from ..models import User,Blog,Comment
+from ..models import User,Blog,Comment,Upvote
 from .forms import UpdateProfile,NewBlog,MyComment
 from .. import db
 
@@ -14,6 +14,7 @@ def index():
     quotes = get_quotes()
     print(quotes)
 
+    upvotes = Upvote.get_all_upvotes(blog_id=Blog.id)
 
     return render_template('index.html',title=title,blog=blog,quotes=quotes)
 
@@ -37,17 +38,24 @@ def new_blog():
 @login_required
 def new_comment(blog_id):
     form=MyComment()
-    blog = Blog.query.get('blog_id')
     if form.validate_on_submit():
         description = form.description.data
-
         new_comment=Comment(description=description,user_id=current_user._get_current_object().id, blog_id=blog_id)
         db.session.add(new_comment)
         db.session.commit()
+        return redirect(url_for('.new_comment',form = form,blog_id=blog_id))
+    # all_comments = Comment.query.filter_by(blog_id=blog_id).all()
+    return render_template('comments.html',form=form)
 
-        return redirect(url_for('.new_comment',blog_id=blog_id))
-    all_comments = Comment.query.filter_by(blog_id=blog_id).all()
-    return render_template('comments.html',form=form,comment=all_comments,blog=blog)
+@main.route('/blog/<int:blog_id>', methods=["POST"])
+@login_required
+def del_blog(blog_id):
+    blog = Blog.query.get(blog_id)
+    if blog.author != current_user:
+        error = "You can't delete this Pitch"
+        return redirect(url_for('main.index'))
+    blog.delete()
+    return redirect(url_for('main.index'))
 
 @main.route('/user/<uname>')
 def profile(uname):
