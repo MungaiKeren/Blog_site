@@ -1,0 +1,4 @@
+Hello {{user.username}},
+We are so glad you signed in to bloggy.
+Bloggy is this amazing site where bloggers can meet and post their blogs,
+view blogs from other bloggers and most important have your bloggy blog!
