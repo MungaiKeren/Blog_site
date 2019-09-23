@@ -4,7 +4,7 @@ from ..models import User
 from .forms import RegistrationForm,LoginForm
 from .. import db
 from flask_login import login_user,logout_user,login_required
-from ..email import mail_message
+# from ..email import mail_message
 
 
 @auth.route('/login',methods=['GET','POST'])
@@ -18,7 +18,7 @@ def login():
 
         flash('Invalid username or Password')
 
-    title = "Bloggy logs"
+    title = "Bloggy-Login"
     return render_template('auth/login.html',login_form = login_form,title=title)
 
 @auth.route('/register',methods = ["GET","POST"])
@@ -29,11 +29,11 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        mail_message("Welcome to bloggy","email/welcome_user",user.email,user=user)
+        #mail_message("We are glad to recieve you from bloggy logs","email/welcome_user",user.email,user=user)
         
         return redirect(url_for('auth.login'))
-        title = "New blogger"
-    return render_template('auth/register.html',registration_form = form,title=title)
+        title = "New bloggy"
+    return render_template('auth/register.html',registration_form = form)
 
 
 @auth.route('/logout')

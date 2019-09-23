@@ -4,15 +4,16 @@ from ..requests import get_quotes
 from flask_login import login_required,current_user
 from ..models import User
 from .forms import UpdateProfile
-from .. import db,photos
+from .. import db
 
 @main.route('/')
 def index():
     title = "Bloggy-site"
     # Getting the quotes
-    quote_message = get_quotes('quote')
+    quotes = get_quotes()
+    print(quotes)
 
-    return render_template('index.html',title=title,quote_message=quote_message)
+    return render_template('index.html',title=title,quotes=quotes)
 
 @main.route('/user/<uname>')
 def profile(uname):
