@@ -1,0 +1,16 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            {{wtf.quick_form(form,button_map={'submit':'primary'})}}
+        </div>
+        <div class="col-6">
+            <h4>Comments</h4>
+            {{ macro.displayComment(comment) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

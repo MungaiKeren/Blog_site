@@ -8,14 +8,16 @@ from .. import db
 
 @main.route('/')
 def index():
+    blog = Blog.query.all()
     title = "Bloggy-site"
     # Getting the quotes
     quotes = get_quotes()
     print(quotes)
 
-    return render_template('index.html',title=title,quotes=quotes)
 
-@main.route('/new/blog',methods=['GET','POST'])
+    return render_template('index.html',title=title,blog=blog,quotes=quotes)
+
+@main.route('/new/blog/',methods=['GET','POST'])
 @login_required
 def new_blog():
     form = NewBlog()

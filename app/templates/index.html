@@ -1,8 +1,17 @@
 {%extends 'base.html'%}
+{%import 'macros.html' as macro%}
 {%block content%}
 <div class="container">
     <p class="text-center">{{title}}</p>
     <p>{{quotes.author}}</p>
     <p>{{quotes.quote}}</p>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>{{macro.display(blog)}}</h4>
+            </div>
+        </div>
+    </div>
 </div>
 {%endblock%}
