@@ -2,8 +2,8 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quotes
 from flask_login import login_required,current_user
-from ..models import User
-from .forms import UpdateProfile
+from ..models import User,Blog,Comment
+from .forms import UpdateProfile,NewBlog,MyComment
 from .. import db
 
 @main.route('/')
@@ -14,6 +14,38 @@ def index():
     print(quotes)
 
     return render_template('index.html',title=title,quotes=quotes)
+
+@main.route('/new/blog',methods=['GET','POST'])
+@login_required
+def new_blog():
+    form = NewBlog()
+    if form.validate_on_submit():
+        title = form.title.data
+        blog_content = form.blog_content.data
+        owner_id = current_user
+        print(current_user._get_current_object().id)
+        new_blog = Blog(owner_id=current_user._get_current_object().id,title=title,blog_content=blog_content)
+        db.session.add(new_blog)
+        db.session.commit()
+
+        return redirect(url_for('main.index'))
+    return render_template('blogs.html',form=form)
+
+@main.route('/new/comment/<int:blog_id>',methods=['GET','POST'])
+@login_required
+def new_comment(blog_id):
+    form=MyComment()
+    blog = Blog.query.get('blog_id')
+    if form.validate_on_submit():
+        description = form.description.data
+
+        new_comment=Comment(description=description,user_id=current_user._get_current_object().id, blog_id=blog_id)
+        db.session.add(new_comment)
+        db.session.commit()
+
+        return redirect(url_for('.new_comment',blog_id=blog_id))
+    all_comments = Comment.query.filter_by(blog_id=blog_id).all()
+    return render_template('comments.html',form=form,comment=all_comments,blog=blog)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -37,7 +69,7 @@ def update_profile(uname):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile',uname=user.username))
+        return redireRegistrationFormct(url_for('.profile',uname=user.username))
     
     return render_template('profile/update.html',form=form)
 

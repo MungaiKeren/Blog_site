@@ -22,6 +22,9 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_secure = db.Column(db.String(255))
+    #relationship to the blog and comment model
+    blog = db.relationship('Blog', backref='user', lazy='dynamic')
+    comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
 
     @property
     def password(self):
@@ -36,3 +39,33 @@ class User(UserMixin,db.Model):
     
     def __repr__(self):
         return f'User {self.username}'
+
+class Blog(db.Model):
+    __tablename__='bloggs'
+    
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(255))
+    blog_content = db.Column(db.String(255),index=True)
+    author = db.Column(db.String(255))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+    # relationships will relate to the comment model, delete blog and delete comment models
+    comments = db.relationship('Comment',backref='pitch',lazy='dynamic')
+
+    @classmethod
+    def get_blogs(cls,id):
+        blogs = Blog.query.order_by(blog_id=id).desc().all()
+        return blogs
+
+    def __repr__(self):
+        return f'Blog {self.blog_content}'
+
+class Comment(db.Model):
+    __tablename__='comments'
+
+    id = db.Column(db.Integer,primary_key=True)
+    description = db.Column(db.Text)
+    blog_id = db.Column(db.Integer,db.ForeignKey('bloggs.id'),nullable=False)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
+
+    def __repr__(self):
+        return f'Comment : id: {self.id} comment: {self.description}'
