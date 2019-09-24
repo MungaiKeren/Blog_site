@@ -8,11 +8,11 @@ Mungai Keren
 wambukeren@gmail.com
 
 ## Project Description
-An application designed to utilize 60 seconds of one's life to impress someone! A user submits a one minute pitch and other users votes on their pitch, leave comments and give feedback on the pitch. Pitches are arranged in categories; Business, Creative, Innovative, Interview pitch, Art
+A personal blogging website where users post and share their blogs with other users. 
 
-Logged in users have their profile page where they can view the pitches they pitched and see the voteage on them, upvotes and downvotes.
+Logged in users have their profile page where they can view the blogs they posted and see comments made. One can delete a comment, and a blog as well.
 
-The application uses postgres sql database to store the various pitches and information in the website. WTF flask forms are heavily in use.
+The application uses postgres sql database to store the various blogs and information in the website. WTF flask forms are heavily in use.
 
 Project is then deployed to heroku
 
