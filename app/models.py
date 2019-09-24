@@ -25,7 +25,7 @@ class User(UserMixin,db.Model):
     password_secure = db.Column(db.String(255))
     #relationships
     blog = db.relationship('Blog', backref='user', lazy='dynamic')
-    comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
+    comments = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
 
     def save(self):
         db.session.add(self)

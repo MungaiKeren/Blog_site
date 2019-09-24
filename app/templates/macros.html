@@ -9,7 +9,7 @@
                     <p>Post: {{item.blog_content}}</p>
                     <p class="text-muted"> Posted by: {{item.user.username}} <br> On: {{item.posted_on}}</p>
                     <a href="{{url_for('main.new_comment',blog_id = item.id)}}"><button class="btn"><i
-                                class="fa fa-comments" style="font-size: 32px; color:turquoise">comment</i></button></a>
+                                class="fa fa-comments" style="font-size: 32px; color:turquoise">comment</button></a>
                 </div>
         </div>
     </div>
@@ -21,9 +21,9 @@
 {% endmacro %}
 
 
-{% macro displayComment(all_comments) %}
-<ul> {% if all_comments %}
-    {% for comment in all_comments %}
+{% macro displayComment(comments) %}
+<ul> {% if comments %}
+    {% for comment in comments %}
     <div class="row text-center">
         <p>{{ comment.description }}</p>
         Posted by: {{comment.user.username}}
