@@ -6,15 +6,6 @@
 
 
 {% macro displayComment(comments) %}
-<ul> {% if comments %}
-    {% for comment in comments %}
-    <div class="row text-center">
-        <p>{{ comment.description }}</p>
-        Posted by: {{comment.user.username}}
-        {% endfor %}
-        {% else %}
-        <h3>This post does not does not have any comments yet !</h3>
-        {%endif%}
-    </div>
+
 </ul>
 {% endmacro %}
