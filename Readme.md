@@ -63,5 +63,5 @@ The applications update
 ## License information
 MIT license
 
-## Screenshot
+## Visual representation
 <img src="https://github.com/MungaiKeren/My-Shoe-images/blob/master/Blogsite1.png?raw=true" height='400px' width = '100%'>
