@@ -9,7 +9,7 @@ from .. import db
 @main.route('/',methods=['GET','POST'])
 def index():
     blog = Blog.query.all()
-    title = "Bloggy-site"
+    title = "Welcome to blogsite"
     # Getting the quotes
     quotes = get_quotes()
     print(quotes)

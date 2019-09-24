@@ -2,16 +2,33 @@
 {%import 'macros.html' as macro%}
 {%import 'bootstrap/wtf.html' as wtf%}
 {%block content%}
-<div class="container">
-    <p class="text-center">{{title}}</p>
-    <p>{{quotes.author}}</p>
-    <p>{{quotes.quote}}</p>
+<div class="container-fluid">
+    <h5 class="text-center" style="font-family: 'Mansalva', cursive;text-transform: uppercase; text-decoration:underline;font-size:30px;">{{title}}</h5>
     <div class="row">
-        <div class="col-md-6">
-            <div class="jumbotron">
-                    <h5>{{macro.display(blog)}}</h5>
-            </div>
+        <div class="col-md-8">
+                {% if blog %}
+                {% for item in blog %}
+                <div class="col-md-6">
+                    <div class="card shadow p-3 mb-5 bg-white rounded">
+                        <p>Title: {{item.title}}</p>
+                            <div class="card-body">
+                                <p>Post: {{item.blog_content}}</p>
+                                <p class="text-muted"> Posted by: {{item.user.username}} <br> On: {{item.posted_on}}</p>
+                                <a href="{{url_for('main.new_comment',blog_id = item.id)}}"><button class="btn"><i
+                                            class="fa fa-comments" style="font-size: 32px; color:turquoise">comment</button></a>
+                            </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No blogs have been posted yet!</p>
+                {% endif %}
         </div>
+        <div class="col-md-4">
+        <h5 class="text-center" style="font-family: 'Mansalva', cursive; text-decoration:underline;font-size:30px;">Quote of the day</h5>
+    <p class="text-center" style="font-family: 'Dancing Script', cursive; font-size: 42px;">{{quotes.quote}}</p>
+    <p class="text-muted text-center"><em>By: ~{{quotes.author}}~</em></p>
+</div>
     </div>
 </div>
 {%endblock%}
