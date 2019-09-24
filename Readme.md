@@ -64,4 +64,4 @@ The applications update
 MIT license
 
 ## Screenshot
-<img src="" height='400px' width = '100%'>
+<img src="https://github.com/MungaiKeren/My-Shoe-images/blob/master/Blogsite1.png?raw=true" height='400px' width = '100%'>
