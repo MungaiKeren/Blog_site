@@ -61,7 +61,7 @@ The applications update
 * CSS
 
 ## License information
-MIT license
+[MIT](https://github.com/MungaiKeren/Blog_site/blob/master/LICENSE) license
 
 ## Visual representation
 <img src="https://github.com/MungaiKeren/My-Shoe-images/blob/master/Blogsite1.png?raw=true" height='400px' width = '100%'>
